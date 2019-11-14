@@ -1,6 +1,6 @@
 <?php
 
-require_once('vendor/autoload.php');
+namespace Nimiq;
 
 use StephenHill\Base58;
 use Elliptic\EC;

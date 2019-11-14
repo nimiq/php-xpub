@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4564a1b9c9526cdf9bc457c2d045f1d",
+    "content-hash": "fc598839c7599362dd11de2c67241f52",
     "packages": [
         {
             "name": "bitwasp/bech32",
@@ -332,6 +332,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.1",
+        "ext-bcmath": "*"
+    },
     "platform-dev": []
 }
