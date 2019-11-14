@@ -147,6 +147,13 @@ $vectors = [
     ],
 ];
 
+$vectors_invalid = [
+    'xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg56crXYuXoQRKfDBFA1WEjWgP6LHhwBZeKK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw',
+    'tpubD6NzVbkrYhZ4Ymi1bLuVeV7QxdAJaqjZgrmbKZkE4xyF7SVb5dXhB2KNevFFYB54fPueAfEXx9D88wCX6RaCwJqGUu3tKjGuD3oAPblMVpG',
+    'zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYe',
+];
+
+echo "\n" . 'Can derive correct xpubs and addresses:' . "\n";
 foreach ($vectors as $c => $vector) {
     // Derive
     $derived_child = XPub::fromString($vector['parent'])->derive($vector['index']);
@@ -157,6 +164,20 @@ foreach ($vectors as $c => $vector) {
     $is_equal_xpub = $vector['child'] ? $derived_xpub === $vector['child'] : true;
     $is_equal_address = $derived_address === $vector['address'];
     $passed = $is_equal_xpub && $is_equal_address;
+
+    // Output
+    echo 'Test ' . ($c + 1) . ': ' . ($passed ? 'OK!' : 'FAILED!') . "\n";
+    if (!$passed) exit(1);
+}
+
+echo "\n" . 'Can detect invalid xpubs:' . "\n";
+foreach ($vectors_invalid as $c => $vector) {
+    $passed = false;
+    try {
+        $xpub = XPub::fromString($vector);
+    } catch (Exception $e) {
+        $passed = true;
+    }
 
     // Output
     echo 'Test ' . ($c + 1) . ': ' . ($passed ? 'OK!' : 'FAILED!') . "\n";
