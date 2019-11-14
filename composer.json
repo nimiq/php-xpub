@@ -1,0 +1,19 @@
+{
+    "name": "nimiq/xpub",
+    "description": "A simple class to derive BTC and ETH addresses without GMP.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Sören Schwert",
+            "email": "soeren@nimiq.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "simplito/elliptic-php": "^1.0",
+        "stephenhill/base58": "^1.1",
+        "kornrunner/keccak": "^1.0",
+        "bitwasp/bech32": "^0.0.1"
+    }
+}
