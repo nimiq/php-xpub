@@ -132,7 +132,7 @@ class XPub {
         switch ($coin) {
             case 'btc': return $this->toBTCAddress();
             case 'eth': return $this->toETHAddress();
-            default: throw new Exception('Coin type "' . $coin . '" not supported!');
+            default: throw new \Exception('Coin type "' . $coin . '" not supported!');
         }
     }
 
@@ -140,7 +140,7 @@ class XPub {
         switch ($this->version) {
             case 'xpub': case 'tpub': return $this->toBTCP2PKHAddress();
             case 'zpub': case 'vpub': return $this->toBTCP2WPKHAddress();
-            default: throw new Exception('Version "' . $this->version . '" not supported!');
+            default: throw new \Exception('Version "' . $this->version . '" not supported!');
         }
     }
 
