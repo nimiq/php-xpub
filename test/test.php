@@ -163,6 +163,8 @@ $vectors_invalid = [
     'xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg56crXYuXoQRKfDBFA1WEjWgP6LHhwBZeKK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw',
     'tpubD6NzVbkrYhZ4Ymi1bLuVeV7QxdAJaqjZgrmbKZkE4xyF7SVb5dXhB2KNevFFYB54fPueAfEXx9D88wCX6RaCwJqGUu3tKjGuD3oAPblMVpG',
     'zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYe',
+    'xpub6BjPesomJQtThgmUr1hokZnbB3tpb73eQzjfD7HtZouvUVwuxJLPEwnk8UUzRncvQhgHLmndE8mTEpJDq2ekZ9mEeDYft82CNNZdGNTfnf',
+    'xpub6BjPesomJQtThgmUr1hokZnbB3tpb73eQzjfD7HtZouvUVwuxJLPEwnk8UUzRncvQhgHLmndE8mTEpJDq2ekZ9mEeDYft82CNNZdG',
 ];
 
 echo "\n" . 'Can derive correct xpubs and addresses:' . "\n";
@@ -188,6 +190,7 @@ foreach ($vectors_invalid as $c => $vector) {
     try {
         $xpub = XPub::fromString($vector);
     } catch (Exception $e) {
+        // echo $e->getMessage() . ' ';
         $passed = true;
     }
 
