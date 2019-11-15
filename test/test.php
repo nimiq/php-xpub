@@ -144,6 +144,18 @@ $vectors = [
         'child' => null,
         'address' => 'bc1q27yd7vz8m5kz230wuyncfe3pyazez6ah58yzy0',
         'coin' => 'btc',
+    ], [
+        'parent' => 'xpub6BjPesomJQtThgmUr1hokZnbB3tpb73eQzjfD7HtZouvUVwuxJLPEwnk8UUzRncvQhgHLmndE8mTEpJDq2ekZ9mEeDYft82CNNZdGNTfnfQ',
+        'index' => 0,
+        'child' => 'xpub6EWegWNEAqbjvYW45eighKZnyhaSbc9Y1peQQsbnVPNnvuyZg2KRA64fBJmmK2jmJK86MECTC4EcUndqQ62dVe4xXzWYQ7makJ9uNx2nzik',
+        'address' => null,
+        'coin' => 'eth',
+    ], [
+        'parent' => 'xpub6BjPesomJQtThgmUr1hokZnbB3tpb73eQzjfD7HtZouvUVwuxJLPEwnk8UUzRncvQhgHLmndE8mTEpJDq2ekZ9mEeDYft82CNNZdGNTfnfQ',
+        'index' => [0, 0],
+        'child' => null,
+        'address' => '0x2a2AdEDBb3CD7BCC66557d0fBdE6f9099D388d0B',
+        'coin' => 'eth',
     ],
 ];
 
@@ -162,7 +174,7 @@ foreach ($vectors as $c => $vector) {
 
     // Compare
     $is_equal_xpub = $vector['child'] ? $derived_xpub === $vector['child'] : true;
-    $is_equal_address = $derived_address === $vector['address'];
+    $is_equal_address = $vector['address'] ? $derived_address === $vector['address'] : true;
     $passed = $is_equal_xpub && $is_equal_address;
 
     // Output
