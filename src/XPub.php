@@ -142,7 +142,7 @@ class XPub {
         return (new Base58())->encode(hex2bin($xpub_hex));
     }
 
-    public function toAddress(string $coin = 'btc') {
+    public function toAddress(string $coin = 'btc'): string {
         switch ($coin) {
             case 'btc': return $this->toBTCAddress();
             case 'eth': return $this->toETHAddress();
@@ -185,7 +185,7 @@ class XPub {
         return '0x' . $this->encodeETHChecksum($base_address);
     }
 
-    private function encodeETHChecksum(string $base_address) {
+    private function encodeETHChecksum(string $base_address): string {
         $binary = $this->hex2binary(Keccak::hash($base_address, 256));
 
         $encoded = '';
@@ -199,7 +199,7 @@ class XPub {
         return $encoded;
     }
 
-    private function hex2binary($hex) {
+    private function hex2binary($hex): string {
         $binary = '';
         foreach (str_split($hex, 2) as $hexit) {
             $binary .= str_pad(decbin(hexdec($hexit)), 8, '0', STR_PAD_LEFT);
