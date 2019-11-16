@@ -27,7 +27,11 @@ composer require nimiq/xpub
 use Nimiq\XPub;
 
 # Create an XPub class instance from an xpub/tpub/zpub/vpub string.
-$xpub = XPub::fromString( 'xpub...' );
+$xpub = XPub::fromString( '<xpub...>' ); // => BIP44 Original
+$xpub = XPub::fromString( '<zpub...>' ); // => BIP84 Native SegWit
+# You can also specify the address scheme.
+$xpub = XPub::fromString( '<xpub...>', XPub::BIP84 );
+$xpub = XPub::fromString( '<zpub...>', XPub::BIP44 );
 
 # Derive a child extended public key from it.
 $xpub_i = $xpub->derive( $i );
