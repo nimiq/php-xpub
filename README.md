@@ -1,6 +1,6 @@
 # Nimiq XPub
 
-[![Build Status](https://travis-ci.com/nimiq/php-xpub.svg?branch=master)](https://travis-ci.com/nimiq/php-xpub)
+[![Build Status](https://github.com/nimiq/php-xpub/actions/workflows/php.yml/badge.svg?branch=master)](https://github.com/nimiq/php-xpub/actions/workflows/php.yml)
 
 A simple class to derive BTC and ETH extended public keys and addresses without GMP.
 Only the BCMath extension is required (but GMP is still used for faster calculations when available).
