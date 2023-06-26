@@ -32,15 +32,15 @@ composer require nimiq/xpub
 # PSR-4 autoloading with composer
 use Nimiq\XPub;
 
-# Create an XPub class instance from an xpub/tpub/zpub/vpub string.
-$xpub = XPub::fromString( '<xpub...>' ); // => BIP44 Original
-$xpub = XPub::fromString( '<ypub...>' ); // => BIP49 Nested SegWit
-$xpub = XPub::fromString( '<zpub...>' ); // => BIP84 Native SegWit
+# Create an XPub class instance from an xpub/tpub/ypub/upub/zpub/vpub string.
+$xpub = XPub::fromString( 'xpub...' ); // => BIP44 Original
+$xpub = XPub::fromString( 'ypub...' ); // => BIP49 Nested SegWit
+$xpub = XPub::fromString( 'zpub...' ); // => BIP84 Native SegWit
 
 # You can also specify the address scheme to override auto-detection.
-$xpub = XPub::fromString( '<xpub...>', XPub::BIP84 );
-$xpub = XPub::fromString( '<xpub...>', XPub::BIP49 );
-$xpub = XPub::fromString( '<zpub...>', XPub::BIP44 );
+$xpub = XPub::fromString( 'xpub...', XPub::BIP84 );
+$xpub = XPub::fromString( 'xpub...', XPub::BIP49 );
+$xpub = XPub::fromString( 'zpub...', XPub::BIP44 );
 
 # Derive a child extended public key from it.
 $xpub_i = $xpub->derive( $i );
