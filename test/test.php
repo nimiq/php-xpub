@@ -188,13 +188,20 @@ $vectors = [
         'child' => null,
         'address' => 'bc1qg5xe9egkeyd3ca68rkyhx7j0cfqnngl5p8a5kj',
         'coin' => 'btc',
-    // ], [ // xpub in BIP49 (ypub) format (Coinomi Wallet)
-    //     'parent' => 'xpub661MyMwKB68aRCnMw21BgrgiihMhh7YdYD2s9hWWEFrXpJaUeEzb5ZowLULwfU1GeyXYqCXixNiJ6x24ihByL5yr1nikgGjhJyzG4NGZrWM',
-    //     'bip' => XPub::BIP49,
-    //     'index' => [0, 0],
-    //     'child' => null,
-    //     'address' => '37NAZC6VajjVv52jFxKGEgS4RgEL8RNu1a',
-    //     'coin' => 'btc',
+    ], [ // xpub in BIP49 (ypub) format (BIP49 test vector)
+        'parent' => 'upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY',
+        'bip' => null,
+        'index' => [0, 0],
+        'child' => null,
+        'address' => '2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2',
+        'coin' => 'btc',
+    ], [ // xpub in BIP49 (ypub) format (Coinomi Wallet)
+        'parent' => 'xpub661MyMwKB68aRCnMw21BgrgiihMhh7YdYD2s9hWWEFrXpJaUeEzb5ZowLULwfU1GeyXYqCXixNiJ6x24ihByL5yr1nikgGjhJyzG4NGZrWM',
+        'bip' => XPub::BIP49,
+        'index' => [0, 0],
+        'child' => null,
+        'address' => '37NAZC6VajjVv52jFxKGEgS4RgEL8RNu1a',
+        'coin' => 'btc',
     ], [ // xpub in BIP44 (xpub) format (Coinomi Wallet)
         'parent' => 'xpub661MyMwKB68aRDo82aDsX57nTDqmP3fDyBddYCaEAGSxvkPbEVEaDCzmP7MoQ5E7o18B8MF86KFh8WuwvdFz7CcxpcC1567SYATFCDTB5Sy',
         'bip' => null,
@@ -211,7 +218,10 @@ $vectors_invalid = [
     'zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYe',
     'xpub6BjPesomJQtThgmUr1hokZnbB3tpb73eQzjfD7HtZouvUVwuxJLPEwnk8UUzRncvQhgHLmndE8mTEpJDq2ekZ9mEeDYft82CNNZdGNTfnf',
     'xpub6BjPesomJQtThgmUr1hokZnbB3tpb73eQzjfD7HtZouvUVwuxJLPEwnk8UUzRncvQhgHLmndE8mTEpJDq2ekZ9mEeDYft82CNNZdG',
+    'ypub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY',
 ];
+
+$all_passed = true;
 
 echo "\n" . 'Can derive correct xpubs and addresses:' . "\n";
 foreach ($vectors as $c => $vector) {
@@ -223,24 +233,28 @@ foreach ($vectors as $c => $vector) {
     // Compare
     $is_equal_xpub = $vector['child'] ? $derived_xpub === $vector['child'] : true;
     $is_equal_address = $vector['address'] ? $derived_address === $vector['address'] : true;
-    $passed = $is_equal_xpub && $is_equal_address;
+    $passed_this_test = $is_equal_xpub && $is_equal_address;
 
     // Output
-    echo 'Test ' . ($c + 1) . ': ' . ($passed ? 'OK!' : 'FAILED!') . "\n";
-    if (!$passed) exit(1);
+    echo 'Test ' . ($c + 1) . ': ' . ($passed_this_test ? 'OK!' : 'FAILED!') . "\n";
+    if (!$passed_this_test) {
+        if ($vector['child']) echo 'Expected: ' . $vector['child'] . ', got ' . $derived_xpub . "\n";
+        echo 'Expected: ' . $vector['address'] . ', got ' . $derived_address . "\n";
+    }
 }
 
 echo "\n" . 'Can detect invalid xpubs:' . "\n";
 foreach ($vectors_invalid as $c => $vector) {
-    $passed = false;
+    $passed_this_test = false;
     try {
         $xpub = XPub::fromString($vector);
     } catch (Exception $e) {
         // echo $e->getMessage() . ' ';
-        $passed = true;
+        $passed_this_test = true;
     }
 
     // Output
-    echo 'Test ' . ($c + 1) . ': ' . ($passed ? 'OK!' : 'FAILED!') . "\n";
-    if (!$passed) exit(1);
+    echo 'Test ' . ($c + 1) . ': ' . ($passed_this_test ? 'OK!' : 'FAILED!') . "\n";
 }
+
+if (!$all_passed) exit(1);

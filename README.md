@@ -5,11 +5,17 @@
 A simple class to derive BTC and ETH extended public keys and addresses without GMP.
 Only the BCMath extension is required (but GMP is still used for faster calculations when available).
 
-Supports `xpub`, `tpub`, `zpub` and `vpub` formats.
+Supports all formats:
+
+| Type                  | Mainnet | Testnet |
+|-----------------------|---------|---------|
+| BIP44 (standard)      | xpub    | tpub    |
+| BIP49 (nested segwit) | ypub    | upub    |
+| BIP84 (native segwit) | zpub    | vpub    |
 
 ## Installation
 
-The Nimiq PHP Utilities are availabe via the [Packagist package registry](https://packagist.org/packages/nimiq/xpub) and can be installed with [Composer](https://getcomposer.org):
+The Nimiq XPub package is availabe via the [Packagist package registry](https://packagist.org/packages/nimiq/xpub) and can be installed with [Composer](https://getcomposer.org):
 
 ```bash
 composer require nimiq/xpub
@@ -28,9 +34,12 @@ use Nimiq\XPub;
 
 # Create an XPub class instance from an xpub/tpub/zpub/vpub string.
 $xpub = XPub::fromString( '<xpub...>' ); // => BIP44 Original
+$xpub = XPub::fromString( '<ypub...>' ); // => BIP49 Nested SegWit
 $xpub = XPub::fromString( '<zpub...>' ); // => BIP84 Native SegWit
-# You can also specify the address scheme.
+
+# You can also specify the address scheme to override auto-detection.
 $xpub = XPub::fromString( '<xpub...>', XPub::BIP84 );
+$xpub = XPub::fromString( '<xpub...>', XPub::BIP49 );
 $xpub = XPub::fromString( '<zpub...>', XPub::BIP44 );
 
 # Derive a child extended public key from it.
@@ -44,7 +53,10 @@ $xpub_string = $xpub_i->toString( $asHex = false );
 
 # An XPub can be converted into an address.
 # Pass $coin = 'eth' to convert into an ETH address.
-# (xpubs are converted into regular addresses, zpubs are converted into segwit addresses.)
+#
+# By default, xpubs are converted into standard addresses,
+# ypubs are converted into nested segwit addresses,
+# and zpubs are converted into native segwit addresses.
 $address = $xpub_i->toAddress( $coin = 'btc' );
 ```
 

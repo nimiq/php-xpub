@@ -10,11 +10,14 @@ use BitWasp\Bech32;
 
 class XPub {
     public const BIP44 = 'bip-44';
+    public const BIP49 = 'bip-49';
     public const BIP84 = 'bip-84';
 
     public const HEX_VERSION = [
         'xpub' => '0488b21e',
         'tpub' => '043587cf',
+        'ypub' => '049d7cb2',
+        'upub' => '044a5262',
         'zpub' => '04b24746',
         'vpub' => '045f1cf6',
     ];
@@ -23,6 +26,8 @@ class XPub {
     public const NETWORK_ID = [
         'xpub' => '00',
         'tpub' => '6f',
+        'ypub' => '05',
+        'upub' => 'c4',
     ];
 
     public const SEGWIT_HRP = [
@@ -85,8 +90,9 @@ class XPub {
 
     private static function bip2version(string $bip, string $prefix): string {
         switch($bip) {
-            case self::BIP44: return in_array($prefix, ['xpub', 'zpub']) ? 'xpub' : 'tpub';
-            case self::BIP84: return in_array($prefix, ['xpub', 'zpub']) ? 'zpub' : 'vpub';
+            case self::BIP44: return in_array($prefix, ['xpub', 'ypub', 'zpub']) ? 'xpub' : 'tpub';
+            case self::BIP49: return in_array($prefix, ['xpub', 'ypub', 'zpub']) ? 'ypub' : 'upub';
+            case self::BIP84: return in_array($prefix, ['xpub', 'ypub', 'zpub']) ? 'zpub' : 'vpub';
             default: return $bip ?: $prefix;
         }
     }
@@ -169,6 +175,7 @@ class XPub {
     private function toBTCAddress(): string {
         switch ($this->version) {
             case 'xpub': case 'tpub': return $this->toBTCP2PKHAddress();
+            case 'ypub': case 'upub': return $this->toBTCP2WPKHnestedInP2SHAddress();
             case 'zpub': case 'vpub': return $this->toBTCP2WPKHAddress();
             default: throw new \Exception('Version "' . $this->version . '" not supported!');
         }
@@ -177,9 +184,7 @@ class XPub {
     private function toBTCP2PKHAddress(): string {
         $base_address = self::NETWORK_ID[$this->version] . self::hash160($this->K);
         $checksum = substr(self::doubleSha256($base_address), 0, 8);
-
         $address_hex = $base_address . $checksum;
-
         return (new Base58())->encode(hex2bin($address_hex));
     }
 
@@ -188,6 +193,15 @@ class XPub {
         $version = self::SEGWIT_VERSION;
         $hrp = self::SEGWIT_HRP[$this->version];
         return Bech32\encodeSegwit($hrp, $version, hex2bin($programm));
+    }
+
+    private function toBTCP2WPKHnestedInP2SHAddress(): string {
+        $keyhash = self::hash160($this->K);
+        $script_sig = '0014' . $keyhash;
+        $base_address = self::NETWORK_ID[$this->version] . self::hash160($script_sig);
+        $checksum = substr(self::doubleSha256($base_address), 0, 8);
+        $address_hex = $base_address . $checksum;
+        return (new Base58())->encode(hex2bin($address_hex));
     }
 
     private function toETHAddress(): string {
