@@ -77,7 +77,13 @@ class XPub {
     }
 
     public static function bin2dec(string $bin): int {
-        return unpack('C', $bin)[1];
+        switch (strlen($bin)) {
+            case 1: $format = 'C'; break; // uint8
+            case 2: $format = 'n'; break; // uint16
+            case 4: $format = 'N'; break; // uint32
+            default: throw new \Exception('Invalid packed string length!');
+        }
+        return unpack($format, $bin)[1];
     }
 
     public static function hash160(string $hex): string {
