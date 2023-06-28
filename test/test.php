@@ -223,38 +223,52 @@ $vectors_invalid = [
 
 $all_passed = true;
 
-echo "\n" . 'Can derive correct xpubs and addresses:' . "\n";
+echo "\n" . '🧪 Can derive correct xpubs and addresses:' . "\n";
 foreach ($vectors as $c => $vector) {
     // Derive
-    $derived_child = XPub::fromString($vector['parent'], $vector['bip'] ?: '')->derive($vector['index']);
+    $xpub = XPub::fromString($vector['parent'], $vector['bip'] ?: '');
+    $derived_child = $xpub->derive($vector['index']);
     $derived_xpub = $derived_child->toString();
     $derived_address = $derived_child->toAddress($vector['coin']);
 
     // Compare
     $is_equal_xpub = $vector['child'] ? $derived_xpub === $vector['child'] : true;
     $is_equal_address = $vector['address'] ? $derived_address === $vector['address'] : true;
-    $passed_this_test = $is_equal_xpub && $is_equal_address;
 
     // Output
-    echo 'Test ' . ($c + 1) . ': ' . ($passed_this_test ? 'OK!' : 'FAILED!') . "\n";
-    if (!$passed_this_test) {
-        if ($vector['child']) echo 'Expected: ' . $vector['child'] . ', got ' . $derived_xpub . "\n";
-        echo 'Expected: ' . $vector['address'] . ', got ' . $derived_address . "\n";
+    if ($is_equal_xpub && $is_equal_address) {
+        echo '.';
+    } else {
+        echo "\n" . 'Test ' . ($c + 1) . ' FAILED' . "\n";
+        if ($vector['child']) {
+            echo 'Expected: ' . $vector['child'] . "\n";
+            echo 'Got:      ' . $derived_xpub . "\n";
+        }
+        echo 'Expected: ' . $vector['address'] . "\n";
+        echo 'Got:      ' . $derived_address . "\n";
+        $all_passed = false;
     }
 }
+if ($all_passed) {
+    echo ' ✅' . "\n";
+}
 
-echo "\n" . 'Can detect invalid xpubs:' . "\n";
+echo "\n" . '🧪 Can detect invalid xpubs:' . "\n";
 foreach ($vectors_invalid as $c => $vector) {
     $passed_this_test = false;
     try {
         $xpub = XPub::fromString($vector);
-    } catch (Exception $e) {
-        // echo $e->getMessage() . ' ';
-        $passed_this_test = true;
-    }
 
-    // Output
-    echo 'Test ' . ($c + 1) . ': ' . ($passed_this_test ? 'OK!' : 'FAILED!') . "\n";
+        // If above doesn't throw, then it's a failure
+        echo "\n" . 'Test ' . ($c + 1) . ' FAILED' . "\n";
+        $all_passed = false;
+    } catch (Exception $e) {
+        echo '.';
+        // echo $e->getMessage() . ' ';
+    }
+}
+if ($all_passed) {
+    echo ' ✅' . "\n";
 }
 
 if (!$all_passed) exit(1);
