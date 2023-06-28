@@ -5,7 +5,7 @@
 A simple class to derive BTC and ETH extended public keys and addresses without GMP.
 Only the BCMath extension is required (but GMP is still used for faster calculations when available).
 
-Supports all formats:
+Supports the following formats:
 
 | Type                  | Mainnet | Testnet |
 |-----------------------|---------|---------|
@@ -60,7 +60,24 @@ $xpub_string = $xpub_i->toString( $asHex = false );
 $address = $xpub_i->toAddress( $coin = 'btc' );
 ```
 
-_[See the tests](test/test.php) for example usage._
+_[See the tests](test/test.php) for further example usage._
+
+## Conversion
+
+You can use this library to convert between xpub formats, for example:
+
+```php
+// Parse any extended public key string
+$xpub = XPub::fromString( 'xpub...' );
+
+// Change the version on the instance
+$xpub->version = 'zpub'; // Use any of the supported formats from the table at the top of the README
+
+// Stringify to the target format
+$zpub = $xpub->toString(); // 'zpub...'
+```
+
+## Helpers
 
 The `XPub` class also exposes two common hashing methods:
 
