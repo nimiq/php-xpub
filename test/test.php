@@ -223,6 +223,24 @@ $vectors_invalid = [
 
 $all_passed = true;
 
+echo "\n" . '🧪 Can parse and stringify xpubs:' . "\n";
+foreach ($vectors as $c => $vector) {
+    $xpub = XPub::fromString($vector['parent']); // Ignores BIP override
+    $stringifiedXpub = $xpub->toString();
+
+    if ($stringifiedXpub === $vector['parent']) {
+        echo '.';
+    } else {
+        echo "\n" . 'Test ' . ($c + 1) . ' FAILED' . "\n";
+        echo 'Expected: ' . $vector['parent'] . "\n";
+        echo 'Got:      ' . $stringifiedXpub . "\n";
+        $all_passed = false;
+    }
+}
+if ($all_passed) {
+    echo ' ✅' . "\n";
+}
+
 echo "\n" . '🧪 Can derive correct xpubs and addresses:' . "\n";
 foreach ($vectors as $c => $vector) {
     // Derive
@@ -265,6 +283,28 @@ foreach ($vectors_invalid as $c => $vector) {
     } catch (Exception $e) {
         echo '.';
         // echo $e->getMessage() . ' ';
+    }
+}
+if ($all_passed) {
+    echo ' ✅' . "\n";
+}
+
+echo "\n" . '🧪 Can convert xpubs:' . "\n";
+{
+    $input_xpub = 'xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw';
+    $expected_zpub = 'zpub6mwJaQaUE3oZ763dJZKRbNUxW1znc5f4uqty7hKaAS5RKNscWpZrkohNNhd7BNxD8Hj5NceNPbujdF3935mRkSHHcS6yZLnpsUkrK1XoMLr';
+
+    $xpub = XPub::fromString($input_xpub);
+    $xpub->version = 'zpub';
+    $output_zpub = $xpub->toString();
+
+    if ($output_zpub !== $expected_zpub) {
+        echo 'Test FAILED!' . "\n";
+        echo 'Expected: ' . $expected_zpub . "\n";
+        echo 'Got:      ' . $output_zpub . "\n";
+        $all_passed = false;
+    } else {
+        echo '.';
     }
 }
 if ($all_passed) {
