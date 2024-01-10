@@ -209,6 +209,13 @@ $vectors = [
         'child' => null,
         'address' => '1JkaLb1JCgSSRivHzwKrhFakrBw23HDYbd',
         'coin' => 'btc',
+    ], [
+        'parent' => 'vpub5YcTiJKG9ofiKBLMfxvsK1A7S2diqo2WsoHhaE2cS5iAN7JAAXiZhwi61FS78uCXFsCfSbRsvgstc8LaemtrMogWuP6AYWiTpf9U7nR9DZi',
+        'bip' => null,
+        'index' => [0, 0],
+        'child' => null,
+        'address' => 'tb1qm0t6zqaa9dw4xxayf2s334pdpmmuc6w9kmnd0z',
+        'coin' => 'btc',
     ],
 ];
 

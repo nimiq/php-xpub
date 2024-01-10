@@ -32,7 +32,7 @@ class XPub {
 
     public const SEGWIT_HRP = [
         'zpub' => 'bc',
-        'vpub' => 'tc',
+        'vpub' => 'tb',
     ];
 
     public const SEGWIT_VERSION = 0;
