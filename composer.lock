@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9629a4362365a1a4d3c65e4f52201a5c",
+    "content-hash": "4a65db793a4dafa5c982910a90517a8d",
     "packages": [
         {
             "name": "bitwasp/bech32",
@@ -250,27 +250,32 @@
         },
         {
             "name": "stephenhill/base58",
-            "version": "v1.1.5",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stephen-hill/base58php.git",
-                "reference": "bd9fc19c788160a2f85ba0a19cd800eaf5ba5e99"
+                "reference": "3030c00c0a1e1b78520f3ace6fbf813dacddfab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stephen-hill/base58php/zipball/bd9fc19c788160a2f85ba0a19cd800eaf5ba5e99",
-                "reference": "bd9fc19c788160a2f85ba0a19cd800eaf5ba5e99",
+                "url": "https://api.github.com/repos/stephen-hill/base58php/zipball/3030c00c0a1e1b78520f3ace6fbf813dacddfab5",
+                "reference": "3030c00c0a1e1b78520f3ace6fbf813dacddfab5",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=8.1"
+            },
             "require-dev": {
-                "athletic/athletic": "~0.1",
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "10.*"
+            },
+            "suggest": {
+                "ext-bcmath": "Required for BC Math support",
+                "ext-gmp": "Required for GMP support"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "StephenHill\\": "src/",
-                    "StephenHill\\Benchmarks\\": "benchmarks/"
+                    "StephenHill\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -286,9 +291,15 @@
             "description": "Base58 Encoding and Decoding Library for PHP",
             "support": {
                 "issues": "https://github.com/stephen-hill/base58php/issues",
-                "source": "https://github.com/stephen-hill/base58php/tree/v1.1.5"
+                "source": "https://github.com/stephen-hill/base58php/tree/v2.1.0"
             },
-            "time": "2019-08-22T16:51:59+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/stephen-hill",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-11-19T11:50:12+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
