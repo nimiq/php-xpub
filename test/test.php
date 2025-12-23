@@ -302,7 +302,11 @@ echo "\n" . '🧪 Can convert xpubs:' . "\n";
     $expected_zpub = 'zpub6mwJaQaUE3oZ763dJZKRbNUxW1znc5f4uqty7hKaAS5RKNscWpZrkohNNhd7BNxD8Hj5NceNPbujdF3935mRkSHHcS6yZLnpsUkrK1XoMLr';
 
     $xpub = XPub::fromString($input_xpub);
-    $xpub->version = 'zpub';
+
+    $reflectionProperty = new ReflectionProperty(XPub::class, 'version');
+    $reflectionProperty->setAccessible(true);
+    $reflectionProperty->setValue($xpub, 'zpub');
+
     $output_zpub = $xpub->toString();
 
     if ($output_zpub !== $expected_zpub) {
