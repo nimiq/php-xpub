@@ -103,6 +103,26 @@ class XPub {
         }
     }
 
+    /**
+     * @var string $version 'xpub'|'tpub'|'ypub'|'upub'|'zpub'|'vpub'.
+     */
+    public $version;
+
+    /** @var int $depth */
+    public $depth;
+
+    /** @var string $parent_fingerprint */
+    public $parent_fingerprint;
+
+    /** @var int $index */
+    public $index;
+
+    /** @var string $c */
+    public $c;
+
+    /** @var string $K */
+    public $K;
+
     public function __construct(
         string $version,
         int $depth,
